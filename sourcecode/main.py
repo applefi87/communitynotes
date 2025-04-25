@@ -27,5 +27,7 @@ from scoring.runner import main
 
 
 if __name__ == "__main__":
+  import multiprocessing
+  multiprocessing.set_start_method("spawn", force=True)
   logging.basicConfig(level=logging.DEBUG)
   main()

@@ -54,7 +54,7 @@ While your normal Python install may "just work" if you're lucky, if you run int
 
 ```
 $ python -m venv communitynotes_env
-$ source communitynotes_env/bin/activate
+$ ./communitynotes_env/Scripts/activate
 $ pip install -r requirements.txt
 ```
 
@@ -63,6 +63,20 @@ Then after downloading the data files (see next section) into /sourcecode/, you 
 ```
 $ cd sourcecode
 $ python main.py
+
+Example Usage:
+  # If there is only one rating file, pass the file path to the --ratings flag.
+  python main.py \
+    --enrollment data/userEnrollment-00000.tsv \
+    --notes data/notes-00000.tsv \
+    --ratings data/ratings-00000.tsv \
+    --status data/noteStatusHistory-00000.tsv \
+    --outdir data
+
+  # If there are multiple rating files, move them to a directory, 
+  # and pass the directory path to the --ratings flag.
+  python main.py  --enrollment data/userEnrollment-00000.tsv  --notes data/notes-00000.tsv   --ratings data/ratings  --status data/noteStatusHistory-00000.tsv  --outdir data --parallel
+"""
 ```
 
 Multiple versions of Python3 should work, but we have tested the code with Python 3.10.

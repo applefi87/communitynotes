@@ -255,7 +255,7 @@ def _load_data_from_shared_memory_parallelizable(
   return scoringArgs
 
 
-# patch_pandas is needed since we're using 'forkserver' to create new process.
+# patch_pandas is needed since we're using 'spawn' to create new process.
 @patch_pandas
 def _run_scorer_in_parallel(
   args,
@@ -447,7 +447,7 @@ def _run_scorers(
     shms, scoringArgsSharedMemory = _save_dfs_to_shared_memory(scoringArgs)
 
     with concurrent.futures.ProcessPoolExecutor(
-      mp_context=multiprocessing.get_context("forkserver"),
+      mp_context=multiprocessing.get_context("spawn"),
       max_workers=maxWorkers,
     ) as executor:
       logger.info(f"Starting parallel scorer execution with {len(scorers)} scorers.")
@@ -2050,3 +2050,7 @@ def run_scoring(
   )
 
   return scoredNotes, helpfulnessScores, newNoteStatusHistory, auxiliaryNoteInfo
+
+if __name__ == "__main__":
+    import multiprocessing
+    multiprocessing.set_start_method("spawn", force=True)
